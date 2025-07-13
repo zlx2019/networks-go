@@ -45,7 +45,7 @@ func (es *echoServerEventHandle) OnClosed(conn gnet.Conn, err error) (action gne
 	if err != nil {
 		fmt.Printf("[Close] Connection %s closed with error: %v\n", conn.RemoteAddr().String(), err)
 	} else {
-		fmt.Printf("[Close] Connection %s already closed. \n", conn.RemoteAddr().String())
+		fmt.Printf("[Close] Connection %s closed. \n", conn.RemoteAddr().String())
 	}
 	return
 }
@@ -65,6 +65,11 @@ func (es *echoServerEventHandle) AfterWrite(conn gnet.Conn, b []byte) {
 // React 收到客户端数据事件
 func (es *echoServerEventHandle) React(in []byte, conn gnet.Conn) (out []byte, action gnet.Action) {
 	// 将数据转换为大写后写回
+	line := string(in)
+	if line == "squit\n" {
+		action = gnet.Close
+		return
+	}
 	fmt.Printf("[React] %s: %s", conn.RemoteAddr().String(), string(in))
 	out = bytes.ToUpper(in)
 	return
