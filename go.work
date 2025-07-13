@@ -1,9 +1,7 @@
-go 1.20
+go 1.24.1
 
 use (
-	./plane
-	./examples
-	./pusher
-	./chats
+	std
+	gnet
+	netpoll
 )
-
