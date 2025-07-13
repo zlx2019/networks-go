@@ -11,7 +11,7 @@ import (
 
 // @Title simple_server.go
 // @Author Zero - 2024/8/11 09:57:54
-// @Description 使用 gnet 实现一个TCP服务器
+// @Description 使用 gnet-v1 实现一个TCP服务器
 
 type EchoServer struct {
 	*gnet.EventServer
