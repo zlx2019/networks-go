@@ -14,7 +14,7 @@ var ErrIncompletePacket = errors.New("incomplete packet")
 var magicBytes []byte
 
 const (
-	magicValue       = 9501
+	MagicValue       = 9501
 	magicBytesSize   = 2
 	payloadBytesSize = 4
 	payloadOffset    = magicBytesSize + payloadBytesSize
@@ -22,7 +22,7 @@ const (
 
 func init() {
 	magicBytes = make([]byte, magicBytesSize)
-	binary.BigEndian.PutUint16(magicBytes, uint16(magicValue))
+	binary.BigEndian.PutUint16(magicBytes, uint16(MagicValue))
 }
 
 // Protocol format:

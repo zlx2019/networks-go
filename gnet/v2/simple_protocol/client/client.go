@@ -46,8 +46,7 @@ func main() {
 func ReceiveMessage(conn net.Conn) {
 	reader := bufio.NewReader(conn)
 	welcome, _ := reader.ReadBytes('\n')
-	fmt.Printf("server: %s\n", string(welcome))
-
+	fmt.Printf("server: %s", string(welcome))
 	for {
 		header := make([]byte, 6)
 		if _, err := io.ReadFull(reader, header); err != nil {
@@ -58,22 +57,18 @@ func ReceiveMessage(conn net.Conn) {
 			}
 			return
 		}
-		magic := binary.BigEndian.Uint16(header[:2])
-		if magic != 9501 {
-			fmt.Println("magic error:", magic)
+		// read magic
+		if binary.BigEndian.Uint16(header[:2]) != protocol.MagicValue {
+			fmt.Println("magic mismatch")
 			return
 		}
+		// read payload
 		payloadLen := binary.BigEndian.Uint32(header[2:6])
 		payload := make([]byte, payloadLen)
 		if _, err := io.ReadFull(reader, payload); err != nil {
 			fmt.Printf("Error reading payload: %v\n", err)
 			return
 		}
-		fmt.Printf(
-			"Received Packet: Magic=%x, Length=%d, Data='%s'\n",
-			magic,
-			payloadLen,
-			string(payload),
-		)
+		fmt.Printf("server: %s \n", string(payload))
 	}
 }
